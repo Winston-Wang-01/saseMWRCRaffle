@@ -1,5 +1,6 @@
 from random import seed
 from random import randint
+from playsound import playsound as ps
 
 import pandas as pd 
 import sys
@@ -16,6 +17,12 @@ max = df["Points Earned"].sum()
 print(df[["Attendee Name", "Points Earned"]])
 print("\n")
 print("Total Points Earned: ", max)
+
+#removing winners from day 1 from consideration
+df = df[df['Attendee Email'] != "chen.9936@osu.edu"]
+df = df[df['Attendee Email'] != "chaudharyu1@udayton.edu"]
+df = df[df['Attendee Email'] != "jody.suryatna@saseconnect.org"]
+df = df[df['Attendee Email'] != "wang4362@purdue.edu"]
 
 cont = input("Input \"y\" to roll for a winner. ")
 while (cont == "y"):
@@ -36,7 +43,9 @@ while (cont == "y"):
     winnerName = df["Attendee Name"][winnerIndex]
     winnerPercentage = df["Points Earned"][winnerIndex] / max
     winnerEmail = df["Attendee Email"][winnerIndex]
+    ps('./drum-roll-sound-effect.mp3')
     print("Winner: ", winnerName, "Email:", winnerEmail, "Odds:", winnerPercentage)
+
 
     cont = input ("Input \"y\" to roll for another winner. ")
     df = df.drop(winnerIndex)
